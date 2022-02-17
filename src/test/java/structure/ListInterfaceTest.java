@@ -10,18 +10,18 @@ import config.Configuration;
 public class ListInterfaceTest {
 
 	private ListInterface<String> list;
-	
+
 	@Before
-	public void setup(){
+	public void setup() {
 		list = Configuration.getListInterface();
 		ListInterface<String> l2 = Configuration.getListInterface();
-		if(list == null)
+		if (list == null)
 			fail("You didn't set your list in the Configuration file.");
-		if(list == l2)
+		if (list == l2)
 			fail("You should return a new instance of list with each call to Configuration.getListInterface()");
 	}
-	
-	@Test (timeout = 500)
+
+	@Test(timeout = 500)
 	public void testInsertFirstIsEmptySizeAndGetFirst() {
 		assertTrue("Newly constructed list should be empty.", list.isEmpty());
 		assertEquals("Newly constructed list should be size 0.", 0, list.size());
@@ -35,8 +35,8 @@ public class ListInterfaceTest {
 		assertEquals(3, list.size());
 		assertEquals("First element should .equals \"foo\".", "foo", list.getFirst());
 	}
-	
-	@Test (timeout = 500)
+
+	@Test(timeout = 500)
 	public void testInsertLastIsEmptySizeAndGetLast() {
 		assertTrue("Newly constructed list should be empty.", list.isEmpty());
 		assertEquals("Newly constructed list should be size 0.", 0, list.size());
@@ -50,8 +50,8 @@ public class ListInterfaceTest {
 		assertEquals(3, list.size());
 		assertEquals("Last element should .equals \"foo\".", "foo", list.getLast());
 	}
-	
-	@Test (timeout = 500)
+
+	@Test(timeout = 500)
 	public void testInsertAtIsEmptySizeAndGetAt() {
 		assertTrue("Newly constructed list should be empty.", list.isEmpty());
 		assertEquals("Newly constructed list should be size 0.", 0, list.size());
@@ -68,18 +68,18 @@ public class ListInterfaceTest {
 		assertEquals("1th element should .equals \"hello\".", "hello", list.get(1));
 		assertEquals("2th element should .equals \"world\".", "world", list.get(2));
 	}
-	
-	@Test (timeout = 500, expected = IllegalStateException.class)
+
+	@Test(timeout = 500, expected = IllegalStateException.class)
 	public void testExceptionOnEmptyGetFirst() {
 		list.getFirst();
 	}
-	
-	@Test (timeout = 500, expected = IllegalStateException.class)
+
+	@Test(timeout = 500, expected = IllegalStateException.class)
 	public void testExceptionOnEmptyGetLast() {
 		list.getLast();
 	}
-	
-	@Test (timeout = 500)
+
+	@Test(timeout = 500)
 	public void testInsertFirstRemoveFirstSizeAndIsEmpty() {
 		assertTrue("Newly constructed list should be empty.", list.isEmpty());
 		list.insertFirst("hello").insertFirst("there").insertFirst("world");
@@ -92,8 +92,8 @@ public class ListInterfaceTest {
 		assertEquals("List should now have 0 elements", 0, list.size());
 		assertTrue("All elements removed, list should be empty.", list.isEmpty());
 	}
-	
-	@Test (timeout = 500)
+
+	@Test(timeout = 500)
 	public void testInsertLastRemoveLastSizeAndIsEmpty() {
 		assertTrue("Newly constructed list should be empty.", list.isEmpty());
 		list.insertLast("hello").insertLast("there").insertLast("world");
@@ -106,41 +106,41 @@ public class ListInterfaceTest {
 		assertEquals("List should now have 0 elements", 0, list.size());
 		assertTrue("All elements removed, list should be empty.", list.isEmpty());
 	}
-	
-	@Test (timeout = 500, expected = IllegalStateException.class)
+
+	@Test(timeout = 500, expected = IllegalStateException.class)
 	public void testExceptionOnEmptyRemoveFirst() {
 		list.removeFirst();
 	}
-	
-	@Test (timeout = 500, expected = IllegalStateException.class)
+
+	@Test(timeout = 500, expected = IllegalStateException.class)
 	public void testExceptionOnEmptyRemoveLast() {
 		list.removeLast();
 	}
-	
-	@Test (timeout = 500, expected = IndexOutOfBoundsException.class)
+
+	@Test(timeout = 500, expected = IndexOutOfBoundsException.class)
 	public void testExceptionOnOutOfBounds1() {
 		list.removeAt(0);
 	}
-	
-	@Test (timeout = 500, expected = IndexOutOfBoundsException.class)
+
+	@Test(timeout = 500, expected = IndexOutOfBoundsException.class)
 	public void testExceptionOnOutOfBounds2() {
 		list.insertFirst("hello");
 		list.removeAt(1);
 	}
-	
-	@Test (timeout = 500, expected = IndexOutOfBoundsException.class)
+
+	@Test(timeout = 500, expected = IndexOutOfBoundsException.class)
 	public void testExceptionOnOutOfBounds3() {
 		list.removeAt(-5);
 	}
-	
-	@Test (timeout = 500, expected = IndexOutOfBoundsException.class)
+
+	@Test(timeout = 500, expected = IndexOutOfBoundsException.class)
 	public void testExceptionOnOutOfBounds4() {
 		list.insertFirst("hello");
 		list.removeAt(5);
 	}
-	
-	@Test (timeout = 500)
-	public void testInsertsGetsRemovesSize(){
+
+	@Test(timeout = 500)
+	public void testInsertsGetsRemovesSize() {
 		assertTrue("Newly constructed list should be empty.", list.isEmpty());
 		list.insertLast("Hello").insertLast("World!");
 		assertEquals("Insert at should return an instance of the list.", list, list.insertAt(1, "There"));
@@ -155,9 +155,9 @@ public class ListInterfaceTest {
 		assertEquals("Size should be 4", 4, list.size());
 		assertEquals("Last element should be \"bar\"", "bar", list.getLast());
 	}
-	
-	@Test (timeout = 500)
-	public void testInsertsRemoveAndContains(){
+
+	@Test(timeout = 500)
+	public void testInsertsRemoveAndContains() {
 		list.insertLast("Hello").insertLast("World");
 		assertEquals("Hello is at index 0", 0, list.contains("Hello"));
 		assertEquals("World is at index 1", 1, list.contains("World"));
@@ -175,19 +175,53 @@ public class ListInterfaceTest {
 		assertEquals("Size of list should now be 2", 2, list.size());
 		assertFalse("Hello cannot be removed.", list.remove("Hello"));
 	}
-	
-	@Test (timeout = 1000)
+
+	@Test(timeout = 1000)
 	public void testSpeed() {
-		for(int i = 0; i < 500000; i++){
+		for (int i = 0; i < 500000; i++) {
 			assertEquals(i, list.size());
 			list.insertFirst("MORE!");
 			list.getFirst();
 		}
-		
-		while(!list.isEmpty())
+
+		while (!list.isEmpty())
 			list.removeFirst();
 	}
-	
-	
+
+	// logic test 1
+	@Test(timeout = 500)
+	public void testInsertLastAndIsEmpty() {
+		assertTrue("Newly constructed list should be empty.", list.isEmpty());
+		assertEquals("Newly constructed list should be size 0.", 0, list.size());
+		assertEquals("Insert At should return instance of self", list, list.insertLast("hello"));
+		assertFalse("List should now have elements.", list.isEmpty());
+		assertEquals("List should now have 1 element.", 1, list.size());
+		assertEquals("0th element should .equals \"hello\".", "hello", list.get(0));
+		list.insertAt(0, "world");
+		assertEquals("0th element should .equalse \"world\".", "world", list.get(0));
+		assertEquals("1th element should .equals \"world\".", "hello", list.get(1));
+	}
+
+	// logic test 2
+	@Test(timeout = 1000)
+	public void testInsertAtRemoveAtSizeAndIsEmpty() {
+		assertTrue("Newly constructed list should be empty.", list.isEmpty());
+		list.insertAt(0, "gabe").insertAt(1, "is").insertAt(2, "goat");
+		assertEquals("List should now have 3 elements", 3, list.size());
+		list.removeAt(1);
+		assertEquals("List should now have 2 elements", 2, list.size());
+		list.removeAt(1);
+		assertEquals("List should now have 1 elements", 1, list.size());
+		list.removeAt(0);
+		assertEquals("List should now have 0 elements", 0, list.size());
+		assertTrue("All elements removed, list should be empty.", list.isEmpty());
+	}
+
+	// exception test
+	@Test(timeout = 500, expected = IndexOutOfBoundsException.class)
+	public void testExceptionGabeIsOutOfBounds() {
+		list.insertFirst("gabe");
+		list.removeAt(420);
+	}
 
 }
