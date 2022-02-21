@@ -1,5 +1,7 @@
 package structure;
 
+//total of three things to comment here
+
 /**
  * COMMENT
  * 
@@ -200,7 +202,15 @@ public class RecursiveLinkedList<T> implements ListInterface<T> {
 		return contains(elem, head, 0);
 	}
 
-	// COMMENT
+	/**
+	 * COMMENT
+	 *
+	 * @param toFind       is the element that needs to be found
+	 * @param toCheck      is the current node being checked
+	 * @param currentIndex is the current index
+	 * @return the index of the element to be found. If it is not in the list,
+	 *         return -1.
+	 */
 	private int contains(T toFind, Node<T> toCheck, int currentIndex) {
 		// 2 base cases
 		// base 1 - I've reached end of the list (return -1)

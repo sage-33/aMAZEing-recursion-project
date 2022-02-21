@@ -1,5 +1,6 @@
 package config;
 
+import maze.BasicMazeBuilder;
 import maze.Maze;
 import maze.MazeBuilder;
 import maze.MazeSolution;
@@ -38,7 +39,7 @@ public final class Configuration {
 	 * @return the {@link MazeBuilderTest} you want to be graded
 	 */
 	public static MazeBuilder getMazeBuilder() {
-		return null;
+		return new BasicMazeBuilder();
 	}
 
 	/**

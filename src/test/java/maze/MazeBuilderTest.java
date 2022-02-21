@@ -11,17 +11,12 @@ public class MazeBuilderTest {
 
 	private MazeBuilder builder;
 
-	private String exitDesc = "This room is hung with hundreds of "
-			+ "dusty tapestries. All show signs of wear: moth "
-			+ "holes, scorch marks, dark stains, and the damage "
-			+ "of years of neglect. They hang on all the walls "
-			+ "and hang from the ceiling to brush against the floor, "
-			+ "blocking your view of the rest of the room.";
+	private String exitDesc = "This room is hung with hundreds of " + "dusty tapestries. All show signs of wear: moth "
+			+ "holes, scorch marks, dark stains, and the damage " + "of years of neglect. They hang on all the walls "
+			+ "and hang from the ceiling to brush against the floor, " + "blocking your view of the rest of the room.";
 
-	private String basicDesc = "You open the door, and the reek "
-			+ "of garbage assaults your nose. Looking inside, "
-			+ "you see a pile of refuse and offal that nearly "
-			+ "reaches the ceiling. In the ceiling above it is "
+	private String basicDesc = "You open the door, and the reek " + "of garbage assaults your nose. Looking inside, "
+			+ "you see a pile of refuse and offal that nearly " + "reaches the ceiling. In the ceiling above it is "
 			+ "a small hole that is roughly as wide as two human "
 			+ "hands. No doubt some city dweller high above disposes "
 			+ "of his rubbish without ever thinking about where it goes.";
@@ -62,24 +57,24 @@ public class MazeBuilderTest {
 		builder.addPassage(r0, r1);
 		assertFalse(r0.getRooms().isEmpty());
 		assertFalse(r1.getRooms().isEmpty());
-		
+
 		assertEquals(1, r0.getRooms().size());
 		assertEquals(1, r1.getRooms().size());
-		
+
 		assertEquals(0, r0.getRooms().contains(r1));
 		assertEquals(0, r1.getRooms().contains(r0));
-		
+
 		builder.addPassage(r0, r1);
 		assertFalse(r0.getRooms().isEmpty());
 		assertFalse(r1.getRooms().isEmpty());
-		
+
 		assertEquals(1, r0.getRooms().size());
 		assertEquals(1, r1.getRooms().size());
-		
+
 		assertEquals(0, r0.getRooms().contains(r1));
 		assertEquals(0, r1.getRooms().contains(r0));
 	}
-	
+
 	@Test(timeout = 50)
 	public void testBuildCircularRooms() {
 		Room r0 = builder.createRoom(basicDesc, "A smelly room.");
@@ -94,20 +89,20 @@ public class MazeBuilderTest {
 		assertEquals(2, r1.getRooms().size());
 		assertEquals(2, r2.getRooms().size());
 		assertEquals(2, r3.getRooms().size());
-		
+
 		assertNotEquals(-1, r0.getRooms().contains(r1));
 		assertNotEquals(-1, r0.getRooms().contains(r3));
-		
+
 		assertNotEquals(-1, r1.getRooms().contains(r0));
 		assertNotEquals(-1, r1.getRooms().contains(r2));
-		
+
 		assertNotEquals(-1, r2.getRooms().contains(r1));
 		assertNotEquals(-1, r2.getRooms().contains(r3));
-		
+
 		assertNotEquals(-1, r3.getRooms().contains(r0));
 		assertNotEquals(-1, r3.getRooms().contains(r2));
 	}
-	
+
 	@Test(timeout = 50)
 	public void testAddOneWayPassage() {
 		Room r0 = builder.createRoom(basicDesc, "A smelly room.");
@@ -115,87 +110,130 @@ public class MazeBuilderTest {
 		builder.addOneWayPassage(r0, r1);
 		assertFalse(r0.getRooms().isEmpty());
 		assertTrue(r1.getRooms().isEmpty());
-		
+
 		assertEquals(1, r0.getRooms().size());
 		assertEquals(0, r1.getRooms().size());
-		
+
 		assertEquals(0, r0.getRooms().contains(r1));
 		assertEquals(-1, r1.getRooms().contains(r0));
-		
+
 		builder.addOneWayPassage(r0, r1);
 		assertFalse(r0.getRooms().isEmpty());
 		assertTrue(r1.getRooms().isEmpty());
-		
+
 		assertEquals(1, r0.getRooms().size());
 		assertEquals(0, r1.getRooms().size());
-		
+
 		assertEquals(0, r0.getRooms().contains(r1));
 		assertEquals(-1, r1.getRooms().contains(r0));
 	}
-	
-	@Test (timeout = 50, expected = NullPointerException.class)
-	public void testNPE1(){
+
+	// logic test 1
+	@Test(timeout = 50)
+	public void testAddPassage2() {
+		Room r0 = builder.createRoom(basicDesc, "Jake's smelly room.");
+		Room r1 = builder.createRoom(exitDesc, "Sage's dusty room.");
+		builder.addPassage(r0, r1);
+		assertFalse(r0.getRooms().isEmpty());
+		assertFalse(r1.getRooms().isEmpty());
+
+		assertEquals(1, r0.getRooms().size());
+		assertEquals(1, r1.getRooms().size());
+
+		assertEquals(0, r0.getRooms().contains(r1));
+		assertEquals(0, r1.getRooms().contains(r0));
+	}
+
+	// logic test 2
+	@Test(timeout = 50)
+	public void testAddPassage3() {
+		Room r0 = builder.createRoom(basicDesc, "Sage's smelly room.");
+		Room r1 = builder.createExit(exitDesc, "Sage's other room.");
+
+		builder.addPassage(r0, r1);
+
+		assertFalse(r0.getRooms().isEmpty());
+		assertFalse(r1.getRooms().isEmpty());
+
+		assertEquals(1, r0.getRooms().size());
+		assertEquals(1, r1.getRooms().size());
+
+		assertEquals(0, r0.getRooms().contains(r1));
+		assertEquals(0, r1.getRooms().contains(r0));
+	}
+
+	// exception case
+	@Test(timeout = 50, expected = NullPointerException.class)
+	public void testNPE13() {
+		Room r0 = builder.createRoom(basicDesc, "Sage's room.");
+		Room r1 = builder.createExit(exitDesc, "Sage's other room.");
+
+		builder.addPassage(r0, r1);
+		builder.addOneWayPassage(null, r1);
+	}
+
+	@Test(timeout = 50, expected = NullPointerException.class)
+	public void testNPE1() {
 		Room r0 = builder.createRoom(basicDesc, "A smelly room.");
 		builder.addPassage(null, r0);
 	}
-	
-	@Test (timeout = 50, expected = NullPointerException.class)
-	public void testNPE2(){
+
+	@Test(timeout = 50, expected = NullPointerException.class)
+	public void testNPE2() {
 		Room r0 = builder.createRoom(basicDesc, "A smelly room.");
 		builder.addPassage(r0, null);
 	}
-	
-	@Test (timeout = 50, expected = NullPointerException.class)
-	public void testNPE3(){
+
+	@Test(timeout = 50, expected = NullPointerException.class)
+	public void testNPE3() {
 		builder.addPassage(null, null);
 	}
-	
-	@Test (timeout = 50, expected = NullPointerException.class)
-	public void testNPE4(){
+
+	@Test(timeout = 50, expected = NullPointerException.class)
+	public void testNPE4() {
 		builder.createRoom(null, null);
 	}
-	
-	@Test (timeout = 50, expected = NullPointerException.class)
-	public void testNPE5(){
+
+	@Test(timeout = 50, expected = NullPointerException.class)
+	public void testNPE5() {
 		builder.createRoom("Something", null);
 	}
-	
-	@Test (timeout = 50, expected = NullPointerException.class)
-	public void testNPE6(){
+
+	@Test(timeout = 50, expected = NullPointerException.class)
+	public void testNPE6() {
 		builder.createRoom(null, "Something");
 	}
-	
-	@Test (timeout = 50, expected = NullPointerException.class)
-	public void testNPE7(){
+
+	@Test(timeout = 50, expected = NullPointerException.class)
+	public void testNPE7() {
 		builder.createExit(null, null);
 	}
-	
-	@Test (timeout = 50, expected = NullPointerException.class)
-	public void testNPE8(){
+
+	@Test(timeout = 50, expected = NullPointerException.class)
+	public void testNPE8() {
 		builder.createRoom("Something", null);
 	}
-	
-	@Test (timeout = 50, expected = NullPointerException.class)
-	public void testNPE9(){
+
+	@Test(timeout = 50, expected = NullPointerException.class)
+	public void testNPE9() {
 		builder.createRoom(null, "Something");
 	}
-	
-	@Test (timeout = 50, expected = NullPointerException.class)
-	public void testNPE10(){
+
+	@Test(timeout = 50, expected = NullPointerException.class)
+	public void testNPE10() {
 		builder.addOneWayPassage(null, null);
 	}
-	
-	@Test (timeout = 50, expected = NullPointerException.class)
-	public void testNPE11(){
+
+	@Test(timeout = 50, expected = NullPointerException.class)
+	public void testNPE11() {
 		Room r0 = builder.createRoom(basicDesc, "A smelly room.");
 		builder.addOneWayPassage(r0, null);
 	}
 
-	@Test (timeout = 50, expected = NullPointerException.class)
-	public void testNPE12(){
+	@Test(timeout = 50, expected = NullPointerException.class)
+	public void testNPE12() {
 		Room r0 = builder.createRoom(basicDesc, "A smelly room.");
 		builder.addOneWayPassage(null, r0);
 	}
-	
-}
 
+}
