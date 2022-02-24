@@ -3,10 +3,9 @@ package maze;
 import structure.ListInterface;
 import structure.RecursiveLinkedList;
 
-//two things to comment here
-
 /**
- * COMMENT
+ * Represents a basic room that provides a full and short description of said
+ * room and determines whether or not a room is an exit
  *
  * @author sagesilberman
  *
@@ -18,11 +17,12 @@ public class BasicRoom implements Room {
 	protected ListInterface<Room> adjacRooms; // a list of rooms adjacent to the current room
 
 	/**
-	 * COMMENT
+	 * Constructs a basic room with the full description of the room, short
+	 * description of the room, and whether or not a room is an exit
 	 * 
 	 * @param f the full description of the room
 	 * @param s the short description of the room
-	 * @param e whether or not a room is an exit or not
+	 * @param e whether or not a room is an exit s
 	 */
 	public BasicRoom(String f, String s, boolean e) {
 		fullDesc = f;

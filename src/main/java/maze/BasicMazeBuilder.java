@@ -2,10 +2,9 @@ package maze;
 
 import structure.ListInterface;
 
-//one thing to comment here
-
 /**
- * COMMENT
+ * Represents a basic maze that provides rooms, exits, passages, and one way
+ * passages.
  * 
  * @author sagesilberman
  *

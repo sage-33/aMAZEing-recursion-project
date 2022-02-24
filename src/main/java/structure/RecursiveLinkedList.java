@@ -1,19 +1,22 @@
 package structure;
 
-//total of three things to comment here
-
 /**
- * COMMENT
- * 
+ * Represents a linked list where the element can be removed or inserted at
+ * various different locations and the elements are connected by nodes
+ *
  * @author sagesilberman
  *
- * @param <T>
+ * @param <T> a node
  */
 public class RecursiveLinkedList<T> implements ListInterface<T> {
 
 	private int count; // a count of the list
 	private Node<T> head, tail; // creates a node
 
+	/**
+	 * Constructs a RecursiveLinkedList
+	 * 
+	 */
 	public RecursiveLinkedList() {
 		count = 0;
 		head = null; // sets the head of the list
@@ -21,8 +24,16 @@ public class RecursiveLinkedList<T> implements ListInterface<T> {
 
 	}
 
-	// COMMENT
-	public Node<T> getNode(Node<T> currentNode, int currentIndex) {
+	/**
+	 * Returns the node of the list at whatever the current index starts at
+	 * 
+	 * @param currentNode  the current node in the list
+	 * @param currentIndex the distance between the current index and the target
+	 *                     nodes index
+	 * @return the target node
+	 */
+	private Node<T> getNode(Node<T> currentNode, int currentIndex) {
+		// needs to be a private class because its recursive
 		// base case if currentIndex is 0, return currentNode recursive case
 		if (currentNode == null) {
 			throw new NullPointerException("element is null");
@@ -203,7 +214,8 @@ public class RecursiveLinkedList<T> implements ListInterface<T> {
 	}
 
 	/**
-	 * COMMENT
+	 * Returns the index of the element to be found, otherwise, return -1 signifying
+	 * the end of the list has been reached.
 	 *
 	 * @param toFind       is the element that needs to be found
 	 * @param toCheck      is the current node being checked
