@@ -23,4 +23,10 @@ public class BasicRoomTest {
 		assertEquals(0, room.getRooms().contains(otherRoom));
 
 	}
+
+	// Exception
+	@Test(timeout = 100, expected = NullPointerException.class)
+	public void testNullDescriptions() {
+		BasicRoom room = new BasicRoom(null, null, true);
+	}
 }

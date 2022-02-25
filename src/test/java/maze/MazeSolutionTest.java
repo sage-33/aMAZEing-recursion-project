@@ -143,14 +143,12 @@ public class MazeSolutionTest {
 	}
 
 	// exception test
-	@Test(timeout = 500, expected = NullPointerException.class)
-	public void testNullRoom() {
-		Room r0 = builder.createRoom("Sage's dirty room!", "Dirty Hallway");
-		Room r1 = builder.createRoom("Gabe's clean room!", "Clean Hallway");
-		Room r2 = builder.createRoom(null, null);
-		Room r3 = builder.createExit("Sammy's weird room!", "Weird Hallway");
-		builder.addOneWayPassage(r0, r1).addPassage(r1, r2).addOneWayPassage(r2, r0).addOneWayPassage(r2, r3)
-				.addOneWayPassage(r3, r1);
+	@Test(timeout = 500, expected = UnsolvableMazeException.class)
+	public void testNoPathToExit() {
+		Room r0 = builder.createRoom("Sage's cool room!", "Cool Hallway.");
+		Room r1 = builder.createRoom("Jake's dirty room!", "Dirty Hallway.");
+		Room r2 = builder.createRoom("Gabe's weird room!", "Weird Hallway.");
+		builder.addOneWayPassage(r0, r1).addPassage(r1, r2).addOneWayPassage(r2, r0).addOneWayPassage(r2, r0);
 		Maze maze = new Maze(r0);
 		MazeSolution solution = Configuration.getMazeSolution(maze);
 		solution.getSolution();

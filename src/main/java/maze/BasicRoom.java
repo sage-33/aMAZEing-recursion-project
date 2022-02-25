@@ -25,6 +25,10 @@ public class BasicRoom implements Room {
 	 * @param e whether or not a room is an exit s
 	 */
 	public BasicRoom(String f, String s, boolean e) {
+		if (f == null || s == null) {
+			throw new NullPointerException();
+		}
+
 		fullDesc = f;
 		shortDesc = s;
 		exit = e;
